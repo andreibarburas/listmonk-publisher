@@ -1,0 +1,20 @@
+# WordPress
+wp-config.php
+
+# Dependencies
+/vendor/
+/node_modules/
+
+# Build artifacts
+*.zip
+*.tar.gz
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
