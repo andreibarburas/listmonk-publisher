@@ -36,6 +36,16 @@ class WPLMK_Campaign {
         $send_mode   = get_option( 'wplmk_send_mode', 'immediate' );
         $template_id = (int) get_option( 'wplmk_template_id', 0 );
 
+        // Category filter — if any categories are selected, the post must belong to at least one.
+        $allowed_cats = array_filter( array_map( 'intval', (array) get_option( 'wplmk_categories', [] ) ) );
+        if ( ! empty( $allowed_cats ) ) {
+            $post_cats = wp_get_post_categories( $post->ID, [ 'fields' => 'ids' ] );
+            if ( empty( array_intersect( $allowed_cats, $post_cats ) ) ) {
+                $this->log( "Post #{$post->ID} skipped — not in a selected category." );
+                return;
+            }
+        }
+
         if ( empty( $list_ids ) ) {
             $this->log( 'No list IDs configured — campaign not sent.' );
             return;

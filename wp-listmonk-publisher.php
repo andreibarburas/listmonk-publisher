@@ -3,7 +3,7 @@
  * Plugin Name:       WP Listmonk Publisher
  * Plugin URI:        https://github.com/andreibarburas/wp-listmonk-publisher
  * Description:       Automatically creates and sends a listmonk campaign when a new post is published, including the featured image, title, opening excerpt, and a read-more link.
- * Version:           1.0.0
+ * Version:           1.1.0
  * Author:            Andrei Barburas
  * Author URI:        https://barburas.com
  * License:           GPL-2.0-or-later
@@ -15,7 +15,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'WPLMK_VERSION', '1.0.0' );
+define( 'WPLMK_VERSION', '1.1.0' );
 define( 'WPLMK_DIR',     plugin_dir_path( __FILE__ ) );
 
 require_once WPLMK_DIR . 'includes/class-wplmk-api.php';

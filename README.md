@@ -8,6 +8,7 @@ A WordPress plugin that automatically creates and sends a [listmonk](https://lis
 - Sends via your self-hosted listmonk instance using the API
 - Configurable send mode: immediate or draft (review before sending)
 - Supports listmonk templates, custom from address, and multiple subscriber lists
+- **Category filter**: restrict newsletter triggers to one or more specific categories
 - Built-in test email flow: send a real campaign to a private test list before going live
 - Activity log in the settings page for easy debugging
 - Automatic updates via GitHub Releases
@@ -49,6 +50,9 @@ Set a **Test list ID** pointing to a private listmonk list with only yourself as
 Listmonk rejects display names in the `From email` field that contain dots. Use a plain word before the `<`, e.g. `Newsletter <hello@yoursite.com>` rather than `my.newsletter <hello@yoursite.com>`.
 
 ## Changelog
+
+### 1.1.0
+- Added category filter in Campaign Settings — select one or more categories to restrict which posts trigger a newsletter. Leave all unchecked to send for every category (previous behaviour).
 
 ### 1.0.0
 - Initial release

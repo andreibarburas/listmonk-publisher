@@ -25,7 +25,7 @@ class WPLMK_Settings {
         $options = [
             'wplmk_enabled', 'wplmk_url', 'wplmk_api_user',
             'wplmk_api_token', 'wplmk_list_ids', 'wplmk_from_email',
-            'wplmk_send_mode', 'wplmk_template_id',
+            'wplmk_send_mode', 'wplmk_template_id', 'wplmk_categories',
         ];
         foreach ( $options as $opt ) {
             register_setting( 'wplmk_group', $opt );
@@ -125,11 +125,13 @@ class WPLMK_Settings {
         $from_email       = get_option( 'wplmk_from_email', '' );
         $send_mode        = get_option( 'wplmk_send_mode', 'immediate' );
         $template_id      = get_option( 'wplmk_template_id', '' );
+        $saved_categories = (array) get_option( 'wplmk_categories', [] );
         $test_list_id     = get_option( 'wplmk_test_list_id', '' );
         $test_template_id = get_option( 'wplmk_test_template_id', '' );
         $log              = array_reverse( get_option( 'wplmk_log', [] ) );
         $list_ids_str     = is_array( $list_ids ) ? implode( ', ', $list_ids ) : $list_ids;
         $nonce            = wp_create_nonce( 'wplmk_nonce' );
+        $all_categories   = get_categories( [ 'hide_empty' => false ] );
         ?>
         <div class="wplmk-wrap">
 
@@ -245,6 +247,29 @@ class WPLMK_Settings {
                     <div>
                         <input type="text" name="wplmk_from_email" id="wplmk_from_email" value="<?php echo esc_attr( $from_email ); ?>" placeholder="Newsletter <hello@yoursite.com>">
                         <p class="wplmk-hint">Leave blank to use listmonk's default sender. Note: listmonk rejects display names containing dots — use a plain word, e.g. <code>1984black &lt;noreply@mailing.1984.black&gt;</code>.</p>
+                    </div>
+                </div>
+                <div class="wplmk-field">
+                    <label>Categories</label>
+                    <div>
+                        <?php if ( empty( $all_categories ) ) : ?>
+                            <p class="wplmk-hint">No categories found.</p>
+                        <?php else : ?>
+                            <div style="display:flex;flex-direction:column;gap:6px;margin-top:4px;">
+                                <?php foreach ( $all_categories as $cat ) : ?>
+                                    <label style="display:flex;align-items:center;gap:8px;font-weight:400;padding-top:0;cursor:pointer;">
+                                        <input type="checkbox"
+                                               name="wplmk_categories[]"
+                                               value="<?php echo esc_attr( $cat->term_id ); ?>"
+                                               <?php checked( in_array( (string) $cat->term_id, array_map( 'strval', $saved_categories ), true ) ); ?>
+                                               style="width:auto;max-width:none;box-shadow:none;">
+                                        <?php echo esc_html( $cat->name ); ?>
+                                        <span style="color:#8c8f94;font-size:11px;">(<?php echo (int) $cat->count; ?>)</span>
+                                    </label>
+                                <?php endforeach; ?>
+                            </div>
+                            <p class="wplmk-hint" style="margin-top:8px;">Only posts in the selected categories will trigger a newsletter. Leave all unchecked to send for every category.</p>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
